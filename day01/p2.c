@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int solve(char* file_path) {
+  FILE *fp = fopen(file_path, "r");
+  if(!fp) {
+    fprintf(stderr, "Invalid file: %s\n", file_path);
+    exit(EXIT_FAILURE);
+  }
+
+  int dial = 50; 
+  int zero_count = 0;
+
+  char line[128];
+  while (fgets(line, sizeof(line), fp)) {
+    char turn;
+    int steps;
+
+    if (sscanf(line, " %c%d", &turn, &steps) == 2) {
+      if(turn == 'R') {
+        zero_count += (dial + steps) / 100;
+      }
+
+      // same as R by mirroring the case
+      if(turn == 'L') {
+        int mirrored_dial = (100 - dial) % 100;
+        if (mirrored_dial < 0) mirrored_dial += 100;
+
+        zero_count += (mirrored_dial + steps) / 100;
+      }
+
+      int sign = turn == 'R' ? 1 : -1;
+      dial = (dial + sign*steps) % 100;
+      if (dial < 0) dial += 100;
+    }
+  }
+
+  return zero_count;
+}
+
+int main(int argc, char **argv) {
+  if (argc < 2) {
+      fprintf(stderr, "Usage: %s <inputfile>\n", argv[0]);
+      return 1;
+  }
+  
+  printf("%s: %d\n", argv[1],  solve(argv[1]));
+
+  return 0;
+}

@@ -2,11 +2,16 @@
 #include <stdlib.h>
 
 int solve(char* file_path) {
+  FILE *fp = fopen(file_path, "r");
+  if(!fp) {
+    fprintf(stderr, "Invalid file: %s\n", file_path);
+    exit(EXIT_FAILURE);
+  }
+
   int dial = 50; 
   int zero_count = 0;
 
   char line[128];
-  FILE *fp = fopen(file_path, "r");
   while (fgets(line, sizeof(line), fp)) {
     char turn;
     int steps;

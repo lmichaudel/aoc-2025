@@ -17,8 +17,6 @@ int solve(char* file_path) {
   ssize_t slen;
 
   while((slen = getline(&line, &len, fp)) != -1) {
-    int battery;
-
     int first_digit = 0;
     size_t first_digit_index = -1;
     for(size_t i = 0; i < slen - 2; ++i) {

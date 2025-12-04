@@ -90,7 +90,6 @@ int solve(char *file_path) {
   for (int y = 0; y < map.height; ++y) {
     for (int x = 0; x < map.width; ++x) {
       if (map.data[y][x] == 0) {
-        printf(".");
         continue;
       }
       coord_t *neighbors = (coord_t *)malloc(8 * sizeof(coord_t));
@@ -103,13 +102,10 @@ int solve(char *file_path) {
         valid_neighbor_count += map.data[neighbors[i].y][neighbors[i].x];
       }
 
-      printf("%d", valid_neighbor_count);
       if (valid_neighbor_count < 4) {
         acc++;
       }
     }
-
-    printf("\n");
   }
 
   return acc;
